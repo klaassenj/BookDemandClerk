@@ -1,4 +1,4 @@
-# BookDemandClerk
+# Book Demand Clerk
 
 Senior Project for Jason Klaassen and Josh Bussis.
 This Web App is intended to be a virtual clerk to automate the process of collecting data about the demand 
