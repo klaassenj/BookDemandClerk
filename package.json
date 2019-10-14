@@ -1,0 +1,19 @@
+{
+  "name": "bookdemandclerk",
+  "version": "1.0.0",
+  "description": "Senior Project for Jason Klaassen and Josh Bussis.\r This Web App is intended to be a virtual clerk to automate the process of collecting data about the demand \r for new books that the library has the potential to acquire",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NinjaMarshmallow/BookDemandClerk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NinjaMarshmallow/BookDemandClerk/issues"
+  },
+  "homepage": "https://github.com/NinjaMarshmallow/BookDemandClerk#readme"
+}
