@@ -10,7 +10,7 @@
 
 <ion-content padding>
 
-  <h3>Welcome to your first Ionic app!</h3>
+  <h3>Welcome to the Book Demand Clerk App!</h3>
 
   <p>
     This starter project is our way of helping you get a functional app running in record time.
@@ -21,5 +21,22 @@
   <p>
     <button ion-button color="primary" menuToggle>{{this.buttonText}}</button>
   </p>
+
+  <ion-card (click)="expandItem(item)" *ngFor="let item of items">
+    <ion-card-header>
+      <ion-card-title>{{ item.title }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <app-expandable expandHeight="100px" [expanded]="item.expanded">
+        <p class = "card-author" >
+          {{ item.author}}
+        </p>
+        <p>
+          {{ item.description }}
+        </p>
+      </app-expandable>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
