@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ExpandableComponent  } from '../components/expandable/expandable.component';
 
+
 @NgModule({
   declarations: [
     MyApp,

@@ -22,21 +22,6 @@
     <button ion-button color="primary" menuToggle>{{this.buttonText}}</button>
   </p>
 
-  <ion-card (click)="expandItem(item)" *ngFor="let item of items">
-    <ion-card-header>
-      <ion-card-title>{{ item.title }}</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <app-expandable expandHeight="100px" [expanded]="item.expanded">
-        <p class = "card-author" >
-          {{ item.author}}
-        </p>
-        <p>
-          {{ item.description }}
-        </p>
-      </app-expandable>
-    </ion-card-content>
-  </ion-card>
+  
 
 </ion-content>

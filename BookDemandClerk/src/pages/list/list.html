@@ -3,11 +3,31 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>My First List</ion-title>
+    <ion-title>{{ this.pageTitle }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <ion-card (click)="expandItem(item)" *ngFor="let item of items">
+    <ion-icon name="{{this.icon}}" item-left></ion-icon>
+    <ion-card-header item-right>
+      <ion-card-title>{{ item.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <app-expandable expandHeight="100px" [expanded]="item.expanded">
+        <p class = "card-author" >
+          {{ item.author}}
+        </p>
+        <p>
+          {{ item.description }}
+        </p>
+      </app-expandable>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+<!-- <ion-content>
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
       <ion-icon name="{{item.icon}}" item-left></ion-icon>
@@ -17,4 +37,4 @@
       </div>
     </button>
   </ion-list>
-</ion-content>
+</ion-content> -->

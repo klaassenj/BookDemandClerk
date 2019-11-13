@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 interface Item {
- title : string,
- author : String,
- description : string,
- expanded : boolean   
-}
+  title : string,
+  author : String,
+  description : string,
+  expanded : boolean   
+ }
 
 @Component({
   selector: 'page-hello-ionic',
