@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <!-- <ion-item *ngFor="let book of books">
+    <ion-thumbnail item-start>
+      <img src="http://placehold.it">
+    </ion-thumbnail> 
+    <h2>Item Thumbnail</h2>
+    <p>subtitle</p>
+    <app-expandable [expandHeight]="itemExpandHeight" [expanded]="itemExpanded">
+      Hello people
+    </app-expandable>
+  </ion-item> -->
+
+  <ion-list>
+    <ion-card (click)="expandItem(book)" *ngFor="let book of books">
+      <ion-card-header>
+        <ion-card-title>{{book.info.title}}</ion-card-title>
+      </ion-card-header>
+  
+      <!-- <ion-card-content> -->
+        <app-expandable [expandHeight]="itemExpandHeight" [expanded]="book.expanded">
+          <ion-label class="description">{{book.info.description}}</ion-label>
+        </app-expandable>
+      <!-- </ion-card-content> -->
+      </ion-card>
+  </ion-list>
+
+</ion-content>
