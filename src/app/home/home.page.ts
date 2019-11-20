@@ -1,6 +1,21 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchType, BookService } from 'src/app/services/book.service';
+import { RankingService, Ranking } from 'src/app/services/ranking.service';
+
+export interface Book {
+  isbn: string,
+  info: string,
+  title: string,
+  description: string,
+  authors: string,
+  reviews: string,
+  expanded: boolean,
+  buttonColor1: String,
+  buttonColor2: String,
+  buttonColor3: String,
+  value: number
+}
 
 @Component({
   selector: 'app-home',
@@ -11,7 +26,7 @@ export class HomePage {
 
   results = '';
   valid = false;
-  books: any = [{
+  books: any[]= [{
         // intro to optics
         isbn: 'isbn:9780131499331',
         info: '',
@@ -73,9 +88,9 @@ export class HomePage {
 
   type: SearchType = SearchType.isbn;
   result: Observable<any>;
+  
 
-
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private rankingService: RankingService) {
 
     for (let i = 0; i < this.books.length; i++) {
       this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
@@ -139,6 +154,28 @@ export class HomePage {
     // } else {
     //   // do nothing
     // }
+    
+    // Set Ranking
+    console.log(this.books)
+    this.books.forEach(book => {
+      let ranking: Ranking = {
+        bookISBN: "",
+        bookTitle: "",
+        firstName: "",
+        lastName: "",
+        department: "",
+        score: 3
+      };
+      ranking.bookISBN = book.isbn;
+      ranking.bookTitle = book.title;
+      //ranking.firstName = login.firstName;
+      //ranking.lastName = login.lastName;
+      //ranking.department = login.department;
+      ranking.score = book.value;
+      console.log(ranking);
+      //this.rankingService.addRanking(ranking)
+    })
+    
   }
 
 }
