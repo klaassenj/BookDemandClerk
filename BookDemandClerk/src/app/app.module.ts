@@ -12,6 +12,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ExpandableComponent  } from '../components/expandable/expandable.component';
 
 
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -23,6 +28,8 @@ import { ExpandableComponent  } from '../components/expandable/expandable.compon
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,7 +41,8 @@ import { ExpandableComponent  } from '../components/expandable/expandable.compon
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: FirestoreSettingsToken, useValue: {} }
   ]
 })
 export class AppModule {}

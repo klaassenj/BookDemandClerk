@@ -10,11 +10,23 @@
 <ion-content padding>
   <ion-list lines="full">
     <ion-item>
-      <ion-input required type="text" placeholder="Task" [(ngModel)]="todo.task"></ion-input>
+      <ion-input required type="text" placeholder="Book ISBN" [(ngModel)]="todo.bookISBN"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input required type="number" placeholder="Priority" [(ngModel)]="todo.priority"></ion-input>
+      <ion-input required type="text" placeholder="Book Title" [(ngModel)]="todo.bookTitle"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input required type="text" placeholder="First Name" [(ngModel)]="todo.firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input required type="text" placeholder="First Name" [(ngModel)]="todo.lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input required type="text" placeholder="Deparment" [(ngModel)]="todo.department"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input required type="text" placeholder="Score" [(ngModel)]="todo.score"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-button expand="full" (click)="saveTodo()">Save</ion-button>
+  <ion-button expand="full" (click)="saveRanking()">Save</ion-button>
 </ion-content>

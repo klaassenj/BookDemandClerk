@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo, TodoService } from '../services/todo.service';
+import { Ranking, RankingService } from '../services/ranking.service';
  
 @Component({
   selector: 'app-home',
@@ -8,17 +8,17 @@ import { Todo, TodoService } from '../services/todo.service';
 })
 export class HomePage implements OnInit {
  
-  todos: Todo[];
+  rankings: Ranking[];
  
-  constructor(private todoService: TodoService) { }
+  constructor(private rankingService: RankingService) { }
  
   ngOnInit() {
-    this.todoService.getTodos().subscribe(res => {
-      this.todos = res;
+    this.rankingService.getRankings().subscribe(res => {
+      this.rankings = res;
     });
   }
  
   remove(item) {
-    this.todoService.removeTodo(item.id);
+    this.rankingService.removeRanking(item.id);
   }
 }

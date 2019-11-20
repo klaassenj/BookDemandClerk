@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      Ionic FireTodos
+      Book Demand Clerk Rankings
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,7 +10,7 @@
  
   <ion-list>
  
-    <ng-container *ngIf="!todos || todos.length == 0">
+    <ng-container *ngIf="!rankings || rankings.length == 0">
       <div *ngFor="let n of [0,1,2]" padding>
         <ion-skeleton-text></ion-skeleton-text>
         <p>
@@ -19,13 +19,17 @@
       </div>
     </ng-container>
  
-    <ion-item-sliding *ngFor="let item of todos">
+    <ion-item-sliding *ngFor="let item of rankings">
       <ion-item lines="inset" button [routerLink]="['/details', item.id]">
         <ion-label>
-          {{ item.task }}
-          <p>{{ item.createdAt | date:'short' }}</p>
+          {{ item.bookISBN }}
+          {{ item.bookTitle }}
         </ion-label>
-        <ion-note slot="end" color="primary">{{ item.priority }}</ion-note>
+        <ion-label>
+          {{ item.firstName + " " + item.lastName }}
+          {{ item.deparment }}
+        </ion-label>
+        <ion-note slot="end" color="primary">{{ item.score }}</ion-note>
       </ion-item>
  
       <ion-item-options side="end">

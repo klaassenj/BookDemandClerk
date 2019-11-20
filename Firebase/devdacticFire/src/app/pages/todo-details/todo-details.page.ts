@@ -1,4 +1,4 @@
-import { Todo, TodoService } from './../../services/todo.service';
+import { Ranking, RankingService } from '../../services/ranking.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
@@ -10,36 +10,39 @@ import { NavController, LoadingController } from '@ionic/angular';
 })
 export class TodoDetailsPage implements OnInit {
  
-  todo: Todo = {
-    task: 'test',
-    createdAt: new Date().getTime(),
-    priority: 2
+  ranking: Ranking = {
+    bookISBN: "",
+    bookTitle: "",
+    firstName: "",
+    lastName: "",
+    department: "",
+    score: undefined
   };
  
   todoId = null;
  
-  constructor(private route: ActivatedRoute, private nav: NavController, private todoService: TodoService, private loadingController: LoadingController) { }
+  constructor(private route: ActivatedRoute, private nav: NavController, private rankingService: RankingService, private loadingController: LoadingController) { }
  
   ngOnInit() {
     this.todoId = this.route.snapshot.params['id'];
     if (this.todoId)  {
-      this.loadTodo();
+      this.loadRanking();
     }
   }
  
-  async loadTodo() {
+  async loadRanking() {
     const loading = await this.loadingController.create({
       message: 'Loading Todo..'
     });
     await loading.present();
  
-    this.todoService.getTodo(this.todoId).subscribe(res => {
+    this.rankingService.getRanking(this.todoId).subscribe(res => {
       loading.dismiss();
-      this.todo = res;
+      this.ranking = res;
     });
   }
  
-  async saveTodo() {
+  async saveRanking() {
  
     const loading = await this.loadingController.create({
       message: 'Saving Todo..'
@@ -47,16 +50,15 @@ export class TodoDetailsPage implements OnInit {
     await loading.present();
  
     if (this.todoId) {
-      this.todoService.updateTodo(this.todo, this.todoId).then(() => {
+      this.rankingService.updateRanking(this.ranking, this.todoId).then(() => {
         loading.dismiss();
         this.nav.navigateBack('home');
       });
     } else {
-      this.todoService.addTodo(this.todo).then(() => {
+      this.rankingService.addRanking(this.ranking).then(() => {
         loading.dismiss();
         this.nav.navigateBack('home');
       });
     }
   }
- 
 }
