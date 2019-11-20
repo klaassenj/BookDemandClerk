@@ -9,9 +9,67 @@ import { SearchType, BookService } from 'src/app/services/book.service';
 })
 export class HomePage {
 
-  books: any = [];
-  //itemExpanded: boolean = true;
-  itemExpandHeight: number = 200;
+  results = '';
+  valid = false;
+  books: any = [{
+        // intro to optics
+        isbn: 'isbn:9780131499331',
+        info: '',
+        title: '',
+        description: '',
+        authors: '',
+        reviews: 'https://www.amazon.com/Introduction-Optics-3rd-Frank-Pedrotti/dp/0131499335#customerReviews',
+        expanded: false,
+        buttonColor1: 'light',
+        buttonColor2: 'light',
+        buttonColor3: 'light',
+        value: 0
+      },
+      {
+        // shaping digital world
+        isbn: 'isbn:9780830827138',
+        info: '',
+        title: '',
+        description: '',
+        authors: '',
+        reviews: 'https://www.amazon.com/Shaping-Digital-World-Computer-Technology/dp/0830827137#customerReviews',
+        expanded: false,
+        buttonColor1: 'light',
+        buttonColor2: 'light',
+        buttonColor3: 'light',
+        value: 0
+      },
+        {
+        // stats
+        isbn: 'isbn:9780470601877',
+        info: '',
+        title: '',
+        description: '',
+        authors: '',
+        reviews: 'https://www.amazon.com/Statistics-Binder-Ready-Version-Unlocking/dp/1118583108#customerReviews',
+        expanded: false,
+        buttonColor1: 'light',
+        buttonColor2: 'light',
+        buttonColor3: 'light',
+        value: 0
+      },
+      {
+        // linear algebra
+        isbn: 'isbn:9781429215213',
+        info: '',
+        title: '',
+        description: '',
+        authors: '',
+        reviews: 'https://www.amazon.com/Linear-Algebra-Geometric-Ted-Shifrin/dp/1429215216#customerReviews',
+        expanded: false,
+        buttonColor1: 'light',
+        buttonColor2: 'light',
+        buttonColor3: 'light',
+        value: 0
+      }
+      ];
+
+  itemExpandHeight: number = 250;
 
   type: SearchType = SearchType.isbn;
   result: Observable<any>;
@@ -19,74 +77,18 @@ export class HomePage {
 
   constructor(private bookService: BookService) {
 
+    for (let i = 0; i < this.books.length; i++) {
+      this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
+        data =>{
+          // populate the titles
+          this.books[i].title = data[0].volumeInfo.title;
+          // populate the descriptions
+          this.books[i].description = data[0].volumeInfo.description;
+          // populate the authors
+          this.books[i].authors = data[0].volumeInfo.authors;
+      });
+    }
 
-    this.books = [
-      {
-        // intro to optics
-        isbn: 'isbn:9780131499331',
-        info: this.bookService.searchData('isbn:9780131499331', this.type),
-        title: '',
-        description: '',
-        reviews: '',
-        expanded: false
-      },
-      {
-        // stats
-        isbn: 'isbn:9780470601877',
-        info: this.bookService.searchData('isbn:9780470601877', this.type),
-        title: '',
-        description: '',
-        reviews: '',
-        expanded: false
-      },
-      {
-        // shaping digital world
-        isbn: 'isbn:9780830827138',
-        info: this.bookService.searchData('isbn:9780830827138', this.type),
-        title: '',
-        description: '',
-        reviews: '',
-        expanded: false
-      },
-      {
-        // comp architecture
-        isbn: 'isbn:9781284123036',
-        info: this.bookService.searchData('isbn:9781284123036', this.type),
-        title: '',
-        description: '',
-        reviews: '',
-        expanded: false
-      },
-      {
-        // linear algebra
-        isbn: 'isbn:9781429215213',
-        info: this.bookService.searchData('isbn:9781429215213', this.type),
-        title: '',
-        description: '',
-        reviews: '',
-        expanded: false
-      },
-    ];
-    this.result = this.bookService.searchData(this.books[0].isbn, this.type);
-    console.log(this.result);
-    //console.log(this.bookService.getTitle(this.books[0].isbn));
-    // this.books[0].title = this.result[0].title;
-    // this.books[0].description = this.result[0].description;
-    // this.result = this.bookService.searchData(this.books[1].isbn, this.type);
-    // this.books[1].title = this.result[1].title;
-    // this.books[1].description = this.result[1].description;
-
-    // this.result = this.bookService.searchData(this.books[2].isbn, this.type);
-    // this.books[2].title = this.result[2].title;
-    // this.books[2].description = this.result[2].description;
-
-    // this.result = this.bookService.searchData(this.books[3].isbn, this.type);
-    // this.books[3].title = this.result[3].title;
-    // this.books[3].description = this.result[3].description;
-
-    // this.result = this.bookService.searchData(this.books[4].isbn, this.type);
-    // this.books[4].title = this.result[4].title;
-    // this.books[4].description = this.result[4].description;
   }
 
   expandItem(item) {
@@ -96,6 +98,47 @@ export class HomePage {
         }
       }
       item.expanded = !item.expanded;
+  }
+
+  voteButtonClicked(buttonNumber: number, book) {
+    if (buttonNumber === 1) {
+      if (book.buttonColor1 !== 'primary') {
+        book.buttonColor1 = 'primary';
+        book.buttonColor2 = 'light';
+        book.buttonColor3 = 'light';
+        book.value = 1;
+      }
+    } else if (buttonNumber === 2) {
+      if (book.buttonColor2 !== 'primary') {
+        book.buttonColor1 = 'light';
+        book.buttonColor2 = 'primary';
+        book.buttonColor3 = 'light';
+        book.value = 2;
+      }
+    } else if (buttonNumber === 3) {
+      if (book.buttonColor3 !== 'primary') {
+        book.buttonColor1 = 'light';
+        book.buttonColor2 = 'light';
+        book.buttonColor3 = 'primary';
+        book.value = 3;
+      }
+    }
+  }
+
+  submitButton() {
+    this.valid = true;
+    // for (let i = 0; i < this.books.length; i++) {
+    //   if (this.books[i].value === 0) {
+    //     this.valid = false;
+    //   }
+    // }
+
+    // if (!this.valid) {
+    //   this.results = '';
+    //   alert('Please rate all books.');
+    // } else {
+    //   // do nothing
+    // }
   }
 
 }

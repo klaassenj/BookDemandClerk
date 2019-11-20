@@ -1,7 +1,7 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Ionic Blank
+      Calvin Book Demand Clerk
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -20,17 +20,30 @@
   </ion-item> -->
 
   <ion-list>
-    <ion-card (click)="expandItem(book)" *ngFor="let book of books">
+    <ion-card *ngFor="let book of books">
       <ion-card-header>
-        <ion-card-title>{{book.info.title}}</ion-card-title>
+        <ion-card-title (click)="expandItem(book)">{{book.title}}</ion-card-title>
+        <!-- <ion-label>Vote: </ion-label> -->
+        <ion-button shape="round" [color]="book.buttonColor1" (click)="voteButtonClicked(1, book)">1</ion-button>
+        <ion-button shape="round" [color]="book.buttonColor2" (click)="voteButtonClicked(2, book)">2</ion-button>
+        <ion-button shape="round" [color]="book.buttonColor3" (click)="voteButtonClicked(3, book)">3</ion-button>
       </ion-card-header>
   
       <!-- <ion-card-content> -->
         <app-expandable [expandHeight]="itemExpandHeight" [expanded]="book.expanded">
-          <ion-label class="description">{{book.info.description}}</ion-label>
+          <div class="header">Author(s):</div>
+          <p class="description" color="dark">{{book.authors}}</p>
+          <p></p>
+          <h1 class="header" color="dark">Description:</h1>
+          <p class="description" color="dark">{{book.description}}</p>
+          <a class="hlink" href="{{book.reviews}}">Reviews</a>
         </app-expandable>
       <!-- </ion-card-content> -->
       </ion-card>
   </ion-list>
 
+  <ion-button shape="round" (click)="submitButton()">Submit</ion-button>
+  <div *ngFor="let book of books">
+    <ion-label *ngIf="valid">{{book.title}}: {{book.value}}</ion-label>
+  </div>
 </ion-content>
