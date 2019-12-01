@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SearchType, BookService } from 'src/app/services/book.service';
 import { RankingService, Ranking } from 'src/app/services/ranking.service';
+import { User, LoginService } from '../services/login.service';
 
 export interface Book {
   isbn: string,
@@ -88,9 +89,9 @@ export class HomePage {
 
   type: SearchType = SearchType.isbn;
   result: Observable<any>;
-  
+  user : User;
 
-  constructor(private bookService: BookService, private rankingService: RankingService) {
+  constructor(private bookService: BookService, private rankingService: RankingService, private loginService : LoginService) {
 
     for (let i = 0; i < this.books.length; i++) {
       this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
@@ -103,7 +104,7 @@ export class HomePage {
           this.books[i].authors = data[0].volumeInfo.authors;
       });
     }
-
+    this.user = this.loginService.getUser();
   }
 
   expandItem(item) {
@@ -157,25 +158,20 @@ export class HomePage {
     
     // Set Ranking
     console.log(this.books)
+    console.log()
     this.books.forEach(book => {
-      let ranking: Ranking = {
-        bookISBN: "",
-        bookTitle: "",
-        firstName: "",
-        lastName: "",
-        department: "",
-        score: 3
-      };
-      ranking.bookISBN = book.isbn;
-      ranking.bookTitle = book.title;
-      //ranking.firstName = login.firstName;
-      //ranking.lastName = login.lastName;
-      //ranking.department = login.department;
-      ranking.score = book.value;
+      let ranking = this.createRanking(book);
       console.log(ranking);
-      //this.rankingService.addRanking(ranking)
-    })
+      this.rankingService.addRanking(ranking)
+    });
     
+  }
+
+  createRanking(book : Book) {
+    let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value };
+    let user = this.loginService.getUser();
+    let ranking : Ranking = Object.assign(ranks, user);
+    return ranking;
   }
 
 }
