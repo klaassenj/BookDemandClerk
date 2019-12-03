@@ -1,22 +1,37 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Book Demand Clerk</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="primary" padding>
+<ion-content padding>
 <form #form="ngForm" (ngSubmit)="login(form)">
   <ion-grid>
-    <ion-row color="primary" justify-content-center>
+    <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div text-center>
           <h3>Login</h3>
         </div>
         <div padding>
           <ion-list>
-              <ion-item *ngFor="let field of fields">
+              <!-- <ion-item *ngFor="let field of fields">
                   <ion-input name="{{field}}" type="{{field}}" placeholder="{{field}}" ngModel required></ion-input>
-                </ion-item>
+                </ion-item> -->
+              <ion-item>
+                <ion-input name="First Name" type="firstName" placeholder="First Name" ngModel required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-input name="Last Name" type="lastName" placeholder="Last Name" ngModel required></ion-input>
+              </ion-item>
+              <ion-item>
+                <!-- <ion-label>Department</ion-label> -->
+                <ion-select color="secondary" #font placeholder="Select Department" required>
+                  <ion-select-option value="Computer Science">Computer Science</ion-select-option>
+                  <ion-select-option value="English">Enlgish</ion-select-option>
+                  <ion-select-option value="Math">Math</ion-select-option>
+                  <ion-select-option value="Physics">Physics</ion-select-option>
+                </ion-select>
+              </ion-item>
           </ion-list>
         </div>
         <div padding>

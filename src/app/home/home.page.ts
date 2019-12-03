@@ -27,6 +27,7 @@ export class HomePage {
 
   results = '';
   valid = false;
+  notSubmitted = true;
   books: any[]= [{
         // intro to optics
         isbn: 'isbn:9780131499331',
@@ -164,6 +165,11 @@ export class HomePage {
       console.log(ranking);
       this.rankingService.addRanking(ranking)
     });
+
+    this.notSubmitted = false;
+
+    // let know that it was successful
+    alert('Successfully Submitted!');
     
   }
 

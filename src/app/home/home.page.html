@@ -42,8 +42,8 @@
       </ion-card>
   </ion-list>
 
-  <ion-button shape="round" (click)="submitButton()">Submit</ion-button>
-  <div *ngFor="let book of books">
+  <ion-button *ngIf="notSubmitted" shape="round" (click)="submitButton()">Submit</ion-button>
+  <!-- <div *ngFor="let book of books">
     <ion-label *ngIf="valid">{{book.title}}: {{book.value}}</ion-label>
-  </div>
+  </div> -->
 </ion-content>
