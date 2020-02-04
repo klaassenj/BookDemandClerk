@@ -48,6 +48,7 @@ export class RankingService {
   }
  
   addRanking(ranking: Ranking) {
+    console.log(ranking);
     return this.rankingsCollection.add(ranking);
   }
  

@@ -15,13 +15,20 @@ export class LoginService {
   user : User;
 
   constructor() { 
-
+    this.user = {
+      firstName: "",
+      lastName: "",
+      department: ""
+    }
   }
 
   login(ngForm : NgForm) {
-    this.user = ngForm.form.value;
+    this.user.firstName = ngForm.form.value["First Name"];
+    this.user.lastName = ngForm.form.value["Last Name"];
+    this.user.department = ngForm.form.value["Department"];
     console.log(this.user);
   }
+
 
   getUser() : User {
     return this.user;

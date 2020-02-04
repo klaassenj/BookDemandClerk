@@ -22,13 +22,24 @@ export class AdminPage implements OnInit {
   constructor(private rankingService : RankingService, private http : HttpClient) {
     this.columns = [
       { name: 'Name' },
-      { name: 'Company' },
-      { name: 'Genre' }
+      { name: 'Title' },
+      { name: 'Rating' }
     ];
     this.http.get<Data>('../../assets/movies.json')
       .subscribe((res) => {
         console.log(res)
         this.rows = res.movies;
+      });
+      this.rankingService.getRankings().subscribe((rankings) => {
+        console.log(rankings);
+        this.rows = rankings.map(ranking => {
+          return {
+            name : ranking.lastName + ", " + ranking.firstName,
+            title : ranking.bookTitle,
+            rating : ranking.score
+          }
+        });
+        console.log(this.rows);
       });
   }
 
