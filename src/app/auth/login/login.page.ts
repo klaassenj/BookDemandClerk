@@ -32,4 +32,8 @@ export class LoginPage implements OnInit {
     this.router.navigateByUrl('home');
   }
 
+  adminHandler() {
+    this.router.navigateByUrl('admin');
+  }
+
 }

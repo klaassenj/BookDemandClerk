@@ -28,6 +28,8 @@
     "firebase": "^7.5.0",
     "firebase-admin": "^8.8.0",
     "firebase-functions": "^3.3.0",
+    "ionic": "^5.4.15",
+    "npx": "^10.2.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
