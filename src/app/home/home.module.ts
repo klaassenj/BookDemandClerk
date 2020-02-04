@@ -6,16 +6,12 @@ import { RouterModule } from '@angular/router';
 import { ExpandableComponent } from '../components/expandable/expandable.component';
 
 import { HomePage } from './home.page';
-//import { ComponentsModule } from '../components/components.module';
-//import { ComponentsModule } from '../components/components.module';
-//import { ExpandableComponent } from '../components/expandable/expandable.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    //ComponentsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -23,7 +19,6 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  //entryComponents: [ExpandableComponent],
   declarations: [HomePage, ExpandableComponent]
 })
 export class HomePageModule {}
