@@ -9,6 +9,11 @@ export interface Data {
   movies: string;
 }
 
+export interface Column {
+  prop: String,
+  name: String
+}
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -17,31 +22,30 @@ export interface Data {
 })
 export class AdminPage implements OnInit {
   public data: Data;
-  public columns: any;
+  public columns: Column[];
   public rows: any;
 
   integratedData : boolean = true;
-  rankings: Ranking[];
+  rankings: Ranking[] = [];
   switchLabel : String = "View Raw Data";
   
   constructor(private rankingService : RankingService, private http : HttpClient) {
-    this.loadRankings().then(() => {
-      console.log("Rankings Loaded. ");
-      console.log(this.rankings);
-      this.constructCompiledDataTable();
-    });
+    this.constructCompiledDataTable();
+    this.loadRankings()
   }
 
   ngOnInit() {
-    
+    if(this.rankings === undefined || this.rankings == []) {
+      this.loadRankings();
+    }
   }
 
-  loadRankings() : Promise<Ranking[]> {
-    return new Promise((resolve, reject) => {
+  loadRankings() {
       this.rankingService.getRankings().subscribe((rankings) => {
         this.rankings = rankings
-        resolve();
-      });
+        console.log("Rankings Loaded. ");
+        console.log(this.rankings);
+        this.constructCompiledDataTable();
     });
   }
 
@@ -69,7 +73,7 @@ export class AdminPage implements OnInit {
     let dummyRanking = new RankingProps();
     this.columns = Object.keys(dummyRanking).map(key => {
       return { prop: key, name: key }
-    });
+    }).filter(col => col.prop != "id");
     this.rows = this.rankings;
   }
 
