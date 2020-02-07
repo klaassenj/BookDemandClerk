@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>NGX Data Table</ion-title>
+    <ion-title id="title">Faculty Ratings</ion-title>
+    <ion-button id="raw" (click)="switchTable()">{{switchLabel}}</ion-button>
     <ion-button id="upload">Upload Books</ion-button>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +13,7 @@
     <!-- Theme classes dark, material, bootstrap -->
     <ngx-datatable 
       class="material"
-      [limit]="8" 
+      [limit]="50"
       [rows]="rows" 
       [rowHeight]="50" 
       [columns]="columns"

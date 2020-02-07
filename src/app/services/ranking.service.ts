@@ -12,6 +12,16 @@ export interface Ranking {
   department: string,
   score: number
 }
+
+export class RankingProps implements Ranking {
+  public id?: string = "";
+  public bookISBN: string = "";
+  public bookTitle: string = "";
+  public firstName: string = "";
+  public lastName: string = "";
+  public department: string = "";
+  public score: number = -1;
+}
  
 @Injectable({
   providedIn: 'root'
