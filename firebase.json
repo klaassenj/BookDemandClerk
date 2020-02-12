@@ -1,6 +1,6 @@
 {
   "database": {
-    "rules": "allow read, write: if true;"
+    "rules": "database.rules.json"
   },
   "firestore": {
     "rules": "firestore.rules",
