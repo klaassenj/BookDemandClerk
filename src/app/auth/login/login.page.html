@@ -1,20 +1,20 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Book Demand Clerk</ion-title>
+    <ion-title id="title">Book Demand Clerk</ion-title>
     <ion-button id="adminButton" (click)="adminHandler()">Administrator</ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-<form #form="ngForm" (ngSubmit)="login(form)">
-  <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-        <div text-center>
-          <h3>Login</h3>
-        </div>
-        <div padding>
-          <ion-list>
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="login(form)">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-align-self-center" size-md="6" size-lg="5" size-xs="12">
+          <div class="ion-text-center">
+            <h3>Login</h3>
+          </div>
+          <div class="ion-padding">
+            <ion-list>
               <!-- <ion-item *ngFor="let field of fields">
                   <ion-input name="{{field}}" type="{{field}}" placeholder="{{field}}" ngModel required></ion-input>
                 </ion-item> -->
@@ -26,20 +26,20 @@
               </ion-item>
               <ion-item>
                 <!-- <ion-label>Department</ion-label> -->
-                <ion-select color="secondary" #font placeholder="Select Department" required>
+                <ion-select name="Department" color="secondary" #font placeholder="Select Department" ngModel required>
                   <ion-select-option value="Computer Science">Computer Science</ion-select-option>
-                  <ion-select-option value="English">Enlgish</ion-select-option>
+                  <ion-select-option value="English">English</ion-select-option>
                   <ion-select-option value="Math">Math</ion-select-option>
                   <ion-select-option value="Physics">Physics</ion-select-option>
                 </ion-select>
               </ion-item>
-          </ion-list>
-        </div>
-        <div padding>
-          <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</form>
+            </ion-list>
+          </div>
+          <div class="ion-padding">
+            <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

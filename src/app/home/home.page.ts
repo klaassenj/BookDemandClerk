@@ -28,6 +28,7 @@ export class HomePage {
   results = '';
   valid = false;
   notSubmitted = true;
+  toggleExpand: String;
   books: any[]= [{
         // intro to optics
         isbn: 'isbn:9780131499331',
@@ -115,6 +116,11 @@ export class HomePage {
         }
       }
       item.expanded = !item.expanded;
+      
+  }
+
+  getExpandButtonText(book : Book) {
+    return book.expanded ? "Collapse" : "More Info";
   }
 
   voteButtonClicked(buttonNumber: number, book) {

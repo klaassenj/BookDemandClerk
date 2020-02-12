@@ -1,9 +1,19 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Book Demand Clerk</ion-title>
+    <ion-title id="title">Faculty Ratings</ion-title>
+    <ion-button id="raw" (click)="switchTable()">{{switchLabel}}</ion-button>
+    <ion-button id="upload">Upload Books</ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+  <div class="ion-padding">
+
+    <!-- Theme classes dark, material, bootstrap -->
+    <ngx-datatable class="material" [limit]="50" [rows]="rows" [rowHeight]="50" [columns]="columns"
+      [columnMode]="'force'" [sortType]="'multi'" [headerHeight]="50" [footerHeight]="50">
+    </ngx-datatable>
+
+  </div>
 </ion-content>

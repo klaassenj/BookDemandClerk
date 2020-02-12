@@ -7,26 +7,15 @@
 </ion-header>
 
 <ion-content>
-  
-  <!-- <ion-item *ngFor="let book of books">
-    <ion-thumbnail item-start>
-      <img src="http://placehold.it">
-    </ion-thumbnail> 
-    <h2>Item Thumbnail</h2>
-    <p>subtitle</p>
-    <app-expandable [expandHeight]="itemExpandHeight" [expanded]="itemExpanded">
-      Hello people
-    </app-expandable>
-  </ion-item> -->
-
   <ion-list>
     <ion-card *ngFor="let book of books">
       <ion-card-header>
-        <ion-card-title (click)="expandItem(book)">{{book.title}}</ion-card-title>
+        <ion-card-title>{{book.title}}</ion-card-title>
         <!-- <ion-label>Vote: </ion-label> -->
         <ion-button shape="round" [color]="book.buttonColor1" (click)="voteButtonClicked(1, book)">1</ion-button>
         <ion-button shape="round" [color]="book.buttonColor2" (click)="voteButtonClicked(2, book)">2</ion-button>
         <ion-button shape="round" [color]="book.buttonColor3" (click)="voteButtonClicked(3, book)">3</ion-button>
+        <ion-button id="expandButton" shape="round" [color]="primary" (click)="expandItem(book)">{{getExpandButtonText(book)}}</ion-button>
       </ion-card-header>
   
       <!-- <ion-card-content> -->
