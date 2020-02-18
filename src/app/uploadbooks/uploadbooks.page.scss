@@ -1,0 +1,28 @@
+.data-table {
+    min-width: 400px;
+    margin-left: auto; 
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.data-col {
+    background: #f0f0f0;
+}
+
+.has-focus {
+    --background: #0cd1e8;
+}
+
+.header {
+    height: 64px;
+    background: #3171e0;
+}
+
+.upload-btn {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px;
+    min-height: 50px;
+    min-width: 400px;
+}
