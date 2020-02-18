@@ -87,7 +87,7 @@ export class HomePage {
       }
       ];
 
-  itemExpandHeight: number = 250;
+  itemExpandHeight: number = 300; // was 250
 
   type: SearchType = SearchType.isbn;
   result: Observable<any>;

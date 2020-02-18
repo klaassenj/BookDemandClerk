@@ -3,6 +3,7 @@ import { RankingService, Ranking, RankingProps } from '../services/ranking.servi
 import { Observable, Observer } from 'rxjs';
 import { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 export interface Data {
@@ -29,7 +30,7 @@ export class AdminPage implements OnInit {
   rankings: Ranking[] = [];
   switchLabel : String = "View Raw Data";
   
-  constructor(private rankingService : RankingService, private http : HttpClient) {
+  constructor(private rankingService: RankingService, private http: HttpClient, private router: Router) {
     this.constructCompiledDataTable();
     this.loadRankings()
   }
@@ -119,6 +120,10 @@ export class AdminPage implements OnInit {
       return ranking.score == score && ranking.bookTitle == title; 
     });
     return scoreFilteredList.length;
+  }
+
+  uploadBooksPage() {
+    this.router.navigateByUrl('uploadbooks');
   }
 
 }

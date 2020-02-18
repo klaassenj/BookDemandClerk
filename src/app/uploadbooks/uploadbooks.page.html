@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button href="admin" slot="start"></ion-back-button>
+    <ion-title>Upload Books</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <table border="1" class="data-table">
+    <!-- header section -->
+    <tr>
+      <td *ngFor="let header of headerRow" text-center class="header">
+        <b>{{ header }}</b>
+      </td>
+    </tr>
+    <!-- data section -->
+    <tr *ngFor="let row of csvData; let i = index">
+      <td *ngFor="let data of row; let j = index; trackBy: trackByFn" class="data-col">
+        <ion-input type="text" [(ngModel)]="csvData[i][j]"></ion-input>
+
+      </td>
+    </tr>
+  </table>
+</ion-content>
+
+<ion-button (click)="uploadBooks()" color="primary" class="upload-btn">
+  Upload Books
+</ion-button>
