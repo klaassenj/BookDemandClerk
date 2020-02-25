@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RankingService, Ranking, RankingProps } from '../services/ranking.service'
+import { RankingService, Ranking, RankingProps } from '../services/ranking.service';
 import { Observable, Observer } from 'rxjs';
 import { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

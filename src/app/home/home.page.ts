@@ -29,6 +29,7 @@ export class HomePage {
   valid = false;
   notSubmitted = true;
   toggleExpand: String;
+  // GRAB ALL OF THIS FROM THE DATABASE
   books: any[]= [{
         // intro to optics
         isbn: 'isbn:9780131499331',
