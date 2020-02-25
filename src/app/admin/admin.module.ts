@@ -9,6 +9,9 @@ import { AdminPage } from './admin.page';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
+import { AngularFireModule } from '@angular/fire'
+import { environment } from 'src/environments/environment';
+
 const routes: Routes = [
   {
     path: '',
@@ -22,6 +25,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     NgxDatatableModule,
+    AngularFireModule.initializeApp(environment.firebase),
     RouterModule.forChild(routes)
   ],
   declarations: [AdminPage],

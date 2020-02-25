@@ -32,7 +32,11 @@ export class AdminPage implements OnInit {
   
   constructor(private rankingService: RankingService, private http: HttpClient, private router: Router) {
     this.constructCompiledDataTable();
-    this.loadRankings()
+    this.loadRankings();
+    // let sendEmail = firebase.functions().httpsCallable('sendWelcomeEmail')
+    // sendEmail({email:"bookdemandclerk@gmail.com", displayName:"Books" }).then(() =>{
+    //   console.log("Email sent!");
+    // })
   }
 
   ngOnInit() {

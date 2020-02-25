@@ -2,6 +2,9 @@
   <ion-toolbar color="primary">
     <ion-back-button href="login" slot="start"></ion-back-button>
     <ion-title id="title">Faculty Ratings</ion-title>
+    <ion-button href="https://console.firebase.google.com/u/0/project/bookdemandclerk/overview" slot="end">
+      Firebase
+    </ion-button>
     <ion-button id="raw" (click)="switchTable()" slot="end">{{switchLabel}}</ion-button>
     <ion-button id="upload" (click)="uploadBooksPage()" slot="end">Upload Books</ion-button>
   </ion-toolbar>
