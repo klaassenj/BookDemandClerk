@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RankingService, Ranking, RankingProps } from '../services/ranking.service';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, throwError } from 'rxjs';
 import { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-
-export interface Data {
-  movies: string;
-}
+import { Book } from '../home/home.page'
+import { BookService } from '../services/book.service'
+import { catchError, retry, map } from 'rxjs/operators';
 
 export interface Column {
   prop: String,
@@ -22,17 +20,28 @@ export interface Column {
   encapsulation: ViewEncapsulation.None
 })
 export class AdminPage implements OnInit {
-  public data: Data;
   public columns: Column[];
   public rows: any;
 
+  public bookColumns: Column[];
+  public bookRows: any;
+  public books : Book[];
+
+
   integratedData : boolean = true;
-  rankings: Ranking[] = [];
+  rankings: Ranking[];
   switchLabel : String = "View Raw Data";
   
-  constructor(private rankingService: RankingService, private http: HttpClient, private router: Router) {
-    this.constructCompiledDataTable();
+  constructor(private rankingService: RankingService, 
+              private bookService : BookService, 
+              private http: HttpClient, 
+              private router: Router) {
+    
     this.loadRankings();
+    this.constructBookDataTable();
+    this.loadBooks();
+    
+    
     // let sendEmail = firebase.functions().httpsCallable('sendWelcomeEmail')
     // sendEmail({email:"bookdemandclerk@gmail.com", displayName:"Books" }).then(() =>{
     //   console.log("Email sent!");
@@ -40,25 +49,52 @@ export class AdminPage implements OnInit {
   }
 
   ngOnInit() {
-    if(this.rankings === undefined || this.rankings == []) {
-      this.loadRankings();
-    }
   }
 
   loadRankings() {
+    console.log("Loading Rankings...")
       this.rankingService.getRankings().subscribe((rankings) => {
-        this.rankings = rankings
-        console.log("Rankings Loaded. ");
-        console.log(this.rankings);
-        this.constructCompiledDataTable();
-    });
+          this.rankings = rankings
+          console.log("Rankings Loaded. ");
+          console.log(this.rankings);
+          this.constructCompiledDataTable();
+      });
+      
+  }
+
+  loadBooks() {
+    this.books = this.bookService.getBooks()
+    console.log("Books Loaded.")
+    console.log(this.books)
+  }
+
+  constructBookDataTable() {
+    this.bookColumns = [
+      { prop: 'isbn', name: 'ISBN Number' },
+      { prop: 'title', name: 'Title' },
+      { prop: 'author', name: 'Author' },
+      { prop: 'department', name: "Department" },
+      { prop: 'reviews', name: "Review Page" },
+    ];
+      this.books = this.bookService.getBooks()
+      let keys : string[] = this.bookColumns.map(element => {
+        return element.prop.toString()
+      });
+      this.bookRows = this.books.map(book => {
+        let columnObject = {}
+        keys.forEach(key => {
+          columnObject[key] = book[key]
+        });
+        return columnObject
+      });
   }
 
   constructCompiledDataTable() {
     this.columns = [
       { prop: 'title', name: 'Title' },
       { prop: 'avgrating', name: 'Average Rating' },
-      { prop: 'percent', name: 'Percentage of 3\'s'},
+      { prop: 'numOnes', name: "Number of 1's" },
+      { prop: 'numTwos', name: "Number of 2's" },
       { prop: 'sum', name: 'Number of 3\'s'},
       { prop: 'total', name: "Total # of Ratings"}
     ];
@@ -67,7 +103,8 @@ export class AdminPage implements OnInit {
         return {
           title : bookTitle,
           avgrating : this.calculateAverageRatingPerTitle(this.rankings, bookTitle),
-          percent : this.calculatePercentagePerScore(this.rankings, bookTitle, 3),
+          numOnes : this.calculateSumPerScore(this.rankings, bookTitle, 1),
+          numTwos : this.calculateSumPerScore(this.rankings, bookTitle, 2),
           sum : this.calculateSumPerScore(this.rankings, bookTitle, 3),
           total : this.calculateTotal(this.rankings, bookTitle)
         }

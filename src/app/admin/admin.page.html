@@ -13,9 +13,25 @@
 
 <ion-content>
   <div class="ion-padding">
+    <ion-title> Rankings </ion-title>
+  </div>
+  <div class="ion-padding">
 
     <!-- Theme classes dark, material, bootstrap -->
     <ngx-datatable class="material" [limit]="50" [rows]="rows" [rowHeight]="50" [columns]="columns"
+      [columnMode]="'force'" [sortType]="'multi'" [headerHeight]="50" [footerHeight]="50">
+    </ngx-datatable>
+
+  </div>
+
+  <div class="ion-padding">
+
+    <div class="ion-padding">
+      <ion-title> Books </ion-title>
+    </div>
+
+    <!-- Theme classes dark, material, bootstrap -->
+    <ngx-datatable class="material" [limit]="50" [rows]="bookRows" [rowHeight]="50" [columns]="bookColumns"
       [columnMode]="'force'" [sortType]="'multi'" [headerHeight]="50" [footerHeight]="50">
     </ngx-datatable>
 

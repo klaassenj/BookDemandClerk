@@ -167,6 +167,7 @@ export class HomePage {
     // Set Ranking
     console.log(this.books)
     console.log()
+    this.books = this.books.filter(book => book.score > 0)
     this.books.forEach(book => {
       let ranking = this.createRanking(book);
       console.log(ranking);

@@ -30,6 +30,7 @@ export class RankingService {
   private rankingsCollection: AngularFirestoreCollection<Ranking>;
  
   private rankings: Observable<Ranking[]>;
+  private rankingsArray: Ranking[];
  
   constructor(db: AngularFirestore) {
     this.rankingsCollection = db.collection<Ranking>('rankings');
@@ -43,10 +44,28 @@ export class RankingService {
         });
       })
     );
+
+    this.rankings.subscribe(rankings => {
+      console.log(rankings)
+      this.rankingsArray = rankings
+    })
   }
  
   getRankings() {
+    this.rankings = this.rankingsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
     return this.rankings;
+  }
+
+  getRankingsCache() : Ranking[] {
+    return this.rankingsArray
   }
  
   getRanking(id) {
