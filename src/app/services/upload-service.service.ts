@@ -10,11 +10,13 @@ export class UploadServiceService {
   constructor(private afs: AngularFirestore) { }
 
   // function to upload a list of books to the database
-  upload(booklist: Book[], currentDepartment: string) {
+  async upload(booklist: Book[], currentDepartment: string) {
     // take all of the books and put them in the database
-    
-    // make all of the preious books archived
-    this.getDepartmentBooks('Computer Science');
+
+    // make all of the previous books archived
+    this.archiveOldBooks('Computer Science');
+    // delay for a second so we don't overwrite the new list that's about to be written
+    await this.delay(1000);
 
     const currentDate = new Date();
     for (let i = 0; i < booklist.length; i++) {
@@ -26,21 +28,23 @@ export class UploadServiceService {
         date: currentDate
       });
     }
-    console.log('Added a new list of book...');
   }
 
-  // get a collection of books
-  getDepartmentBooks(listDepartment: string) {
-    // const departmentBooks = this.afs.collection('/books', ref => ref.where('department', '==', listDepartment)).valueChanges().subscribe(
-    //   data => console.log(data),
-    //   data => data.forEach(element => {
-    //     //this.afs.collection('books').doc().set()
-    //   }));
-    const departmentBooks = this.afs.collection('/books', ref => ref.where('department', '==', listDepartment)).snapshotChanges();
-    departmentBooks.forEach(element => {
-      console.log(element);
-    });
-      
-    //console.log(departmentBooks);
+  // archive all books of the given department
+  archiveOldBooks(listDepartment: string) {
+    // get all of the books of the given department and archive them
+    const books = this.afs.collection('/books', ref => ref.where('department', '==', listDepartment)).get().subscribe(
+      book => {
+        book.forEach(item => {
+          this.afs.collection('books').doc(item.id).set({archived: true}, {merge: true});
+        });
+      });
+  }
+
+  // found this function to delay at: https://stackoverflow.com/questions/37764665/typescript-sleep
+  // needed this so we can upload a new list of books, and archive the old books without accidentally archiving
+  // the current books we just uploaded
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }
