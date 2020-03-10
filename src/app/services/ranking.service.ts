@@ -44,14 +44,9 @@ export class RankingService {
         });
       })
     );
-
-    this.rankings.subscribe(rankings => {
-      console.log(rankings)
-      this.rankingsArray = rankings
-    })
   }
  
-  getRankings() {
+  getRankings() : Observable<Ranking[]> {
     this.rankings = this.rankingsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -63,12 +58,8 @@ export class RankingService {
     );
     return this.rankings;
   }
-
-  getRankingsCache() : Ranking[] {
-    return this.rankingsArray
-  }
  
-  getRanking(id) {
+  getRanking(id : string) : Observable<Ranking> {
     return this.rankingsCollection.doc<Ranking>(id).valueChanges();
   }
  

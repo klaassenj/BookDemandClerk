@@ -5,7 +5,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Book } from '../home/home.page'
-import { BookService } from '../services/book.service'
+import { BookService, BookDB } from '../services/book.service'
 import { catchError, retry, map } from 'rxjs/operators';
 
 export interface Column {
@@ -25,7 +25,7 @@ export class AdminPage implements OnInit {
 
   public bookColumns: Column[];
   public bookRows: any;
-  public books : Book[];
+  public books : BookDB[];
 
 
   integratedData : boolean = true;
@@ -38,9 +38,7 @@ export class AdminPage implements OnInit {
               private router: Router) {
     
     this.loadRankings();
-    this.constructBookDataTable();
     this.loadBooks();
-    
     
     // let sendEmail = firebase.functions().httpsCallable('sendWelcomeEmail')
     // sendEmail({email:"bookdemandclerk@gmail.com", displayName:"Books" }).then(() =>{
@@ -59,32 +57,38 @@ export class AdminPage implements OnInit {
           console.log(this.rankings);
           this.constructCompiledDataTable();
       });
-      
   }
 
   loadBooks() {
-    this.books = this.bookService.getBooks()
-    console.log("Books Loaded.")
-    console.log(this.books)
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books
+      console.log("Books Loaded.")
+      console.log(this.books)
+      this.constructBookDataTable();
+    });
   }
 
   constructBookDataTable() {
     this.bookColumns = [
       { prop: 'isbn', name: 'ISBN Number' },
       { prop: 'title', name: 'Title' },
-      { prop: 'author', name: 'Author' },
+      { prop: 'author', name: 'Author(s)' },
       { prop: 'department', name: "Department" },
-      { prop: 'reviews', name: "Review Page" },
+      { prop: 'reviewPage', name: "Review Page" },
     ];
-      this.books = this.bookService.getBooks()
       let keys : string[] = this.bookColumns.map(element => {
         return element.prop.toString()
       });
       this.bookRows = this.books.map(book => {
         let columnObject = {}
-        keys.forEach(key => {
-          columnObject[key] = book[key]
-        });
+        console.log(book)
+        columnObject['isbn'] = book.isbn;
+        columnObject['department'] = book.department
+        columnObject['reviewPage'] = book.reviewPage
+        columnObject['title'] = this.bookService.getBookTitle(book.isbn);
+        columnObject['author'] = this.bookService.getBookAuthors(book.isbn);
+        console.log("After assignment")
+        console.log(columnObject)
         return columnObject
       });
   }
