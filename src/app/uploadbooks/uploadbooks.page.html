@@ -6,6 +6,16 @@
 </ion-header>
 
 <ion-content>
+  <!-- Select which department -->
+  <ion-item>
+    <ion-select name="Department" color="secondary" #font placeholder="Select Department" [(ngModel)]="department" required>
+      <ion-select-option value="Computer Science">Computer Science</ion-select-option>
+      <ion-select-option value="English">English</ion-select-option>
+      <ion-select-option value="Math">Math</ion-select-option>
+      <ion-select-option value="Physics">Physics</ion-select-option>
+    </ion-select>
+  </ion-item>
+
   <table border="1" class="data-table">
     <!-- header section -->
     <tr>

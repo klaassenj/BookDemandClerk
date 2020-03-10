@@ -14,7 +14,7 @@ export class UploadServiceService {
     // take all of the books and put them in the database
 
     // make all of the previous books archived
-    this.archiveOldBooks('Computer Science');
+    this.archiveOldBooks(currentDepartment);
     // delay for a second so we don't overwrite the new list that's about to be written
     await this.delay(1000);
 

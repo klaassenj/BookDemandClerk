@@ -15,6 +15,7 @@ export class UploadbooksPage implements OnInit {
   // needed variables
   csvData: any[] = [];
   headerRow: any[] = [];
+  department = 'Select Department';
 
   constructor(private http: HttpClient, private papa: Papa, private uploadService: UploadServiceService) {
     this.loadCSV();
@@ -49,31 +50,37 @@ export class UploadbooksPage implements OnInit {
 
   uploadBooks() {
 
-    const csv = this.papa.unparse({
-      data: this.csvData
-    });
-    const totalEntries = csv.split(/[\n,]+/);
-    const parsedEntries: string[] = [];
+    if (this.department !== 'Select Department') {
 
-    for (let i = 0; i < totalEntries.length; i++) {
-      // get rid of the empty entries
-      if (totalEntries[i].length > 1) {
-        parsedEntries.push(totalEntries[i]);
+      const csv = this.papa.unparse({
+        data: this.csvData
+      });
+      const totalEntries = csv.split(/[\n,]+/);
+      const parsedEntries: string[] = [];
+
+      for (let i = 0; i < totalEntries.length; i++) {
+        // get rid of the empty entries
+        if (totalEntries[i].length > 1) {
+          parsedEntries.push(totalEntries[i]);
+        }
       }
+
+      // loop trough the actual entries and add them to the database
+      if (parsedEntries.length % 2 === 0) {
+        const list: Book[] = [];
+        for (let i = 0; i < parsedEntries.length / 2; i++) {
+          const isbnIndex = 2 * i; // the even entries
+          const reviewIndex = 2 * i + 1; // the odd entries
+          // store the isbn and review link in book object
+          const newBook: Book = { ISBN: parsedEntries[isbnIndex], reviewPage: parsedEntries[reviewIndex]};
+          list.push(newBook);
+        }
+        this.uploadService.upload(list, this.department);
+      }
+    } else {
+      alert('Please select a department');
     }
 
-    // loop trough the actual entries and add them to the database
-    if (parsedEntries.length % 2 === 0) {
-      const list: Book[] = [];
-      for (let i = 0; i < parsedEntries.length / 2; i++) {
-        const isbnIndex = 2 * i; // the even entries
-        const reviewIndex = 2 * i + 1; // the odd entries
-        // store the isbn and review link in book object
-        const newBook: Book = { ISBN: parsedEntries[isbnIndex], reviewPage: parsedEntries[reviewIndex]};
-        list.push(newBook);
-      }
-      this.uploadService.upload(list, 'Computer Science');
-    }
   }
 
 }
