@@ -50,20 +50,20 @@ export class AdminPage implements OnInit {
   }
 
   loadRankings() {
-    console.log("Loading Rankings...")
-      this.rankingService.getRankings().subscribe((rankings) => {
-          this.rankings = rankings
-          console.log("Rankings Loaded. ");
-          console.log(this.rankings);
-          this.constructCompiledDataTable();
-      });
+    //console.log('Loading Rankings...')
+    this.rankingService.getRankings().subscribe((rankings) => {
+      this.rankings = rankings
+      //console.log('Rankings Loaded. ');
+      //console.log(this.rankings);
+      this.constructCompiledDataTable();
+    });
   }
 
   loadBooks() {
     this.bookService.getBooks().subscribe(books => {
       this.books = books
-      console.log("Books Loaded.")
-      console.log(this.books)
+      //console.log('Books Loaded.')
+      //console.log(this.books)
       this.constructBookDataTable();
     });
   }
@@ -73,24 +73,24 @@ export class AdminPage implements OnInit {
       { prop: 'isbn', name: 'ISBN Number' },
       { prop: 'title', name: 'Title' },
       { prop: 'author', name: 'Author(s)' },
-      { prop: 'department', name: "Department" },
-      { prop: 'reviewPage', name: "Review Page" },
+      { prop: 'department', name: 'Department' },
+      { prop: 'reviewPage', name: 'Review Page' },
     ];
-      let keys : string[] = this.bookColumns.map(element => {
-        return element.prop.toString()
-      });
-      this.bookRows = this.books.map(book => {
-        let columnObject = {}
-        console.log(book)
-        columnObject['isbn'] = book.isbn;
-        columnObject['department'] = book.department
-        columnObject['reviewPage'] = book.reviewPage
-        columnObject['title'] = this.bookService.getBookTitle(book.isbn);
-        columnObject['author'] = this.bookService.getBookAuthors(book.isbn);
-        console.log("After assignment")
-        console.log(columnObject)
-        return columnObject
-      });
+    let keys : string[] = this.bookColumns.map(element => {
+      return element.prop.toString();
+    });
+    this.bookRows = this.books.map(book => {
+    const columnObject = {};
+    //console.log(book)
+    columnObject['isbn'] = book.isbn;
+    columnObject['department'] = book.department;
+    columnObject['reviewPage'] = book.reviewPage;
+    columnObject['title'] = this.bookService.getBookTitle(book.isbn);
+    columnObject['author'] = this.bookService.getBookAuthors(book.isbn);
+    //console.log('After assignment');
+    //console.log(columnObject);
+    return columnObject;
+  });
   }
 
   constructCompiledDataTable() {
@@ -99,33 +99,33 @@ export class AdminPage implements OnInit {
       { prop: 'avgrating', name: 'Average Rating' },
       { prop: 'numOnes', name: "Number of 1's" },
       { prop: 'numTwos', name: "Number of 2's" },
-      { prop: 'sum', name: 'Number of 3\'s'},
+      { prop: 'sum', name: "Number of 3\'s" },
       { prop: 'total', name: "Total # of Ratings"}
     ];
-      let uniqueTitles = this.getUniqueTitles(this.rankings);
-      this.rows = uniqueTitles.map(bookTitle => {
-        return {
-          title : bookTitle,
-          avgrating : this.calculateAverageRatingPerTitle(this.rankings, bookTitle),
-          numOnes : this.calculateSumPerScore(this.rankings, bookTitle, 1),
-          numTwos : this.calculateSumPerScore(this.rankings, bookTitle, 2),
-          sum : this.calculateSumPerScore(this.rankings, bookTitle, 3),
-          total : this.calculateTotal(this.rankings, bookTitle)
-        }
-      });
+    const uniqueTitles = this.getUniqueTitles(this.rankings);
+    this.rows = uniqueTitles.map(bookTitle => {
+      return {
+        title : bookTitle,
+        avgrating : this.calculateAverageRatingPerTitle(this.rankings, bookTitle),
+        numOnes : this.calculateSumPerScore(this.rankings, bookTitle, 1),
+        numTwos : this.calculateSumPerScore(this.rankings, bookTitle, 2),
+        sum : this.calculateSumPerScore(this.rankings, bookTitle, 3),
+        total : this.calculateTotal(this.rankings, bookTitle)
+      }
+    });
   }
 
   constructRawDataTable() {
-    let dummyRanking = new RankingProps();
+    const dummyRanking = new RankingProps();
     this.columns = Object.keys(dummyRanking).map(key => {
       return { prop: key, name: key }
-    }).filter(col => col.prop != "id");
+    }).filter(col => col.prop !== 'id');
     this.rows = this.rankings;
   }
 
   switchTable() {
-    this.integratedData = !this.integratedData
-    this.switchLabel = this.integratedData ? "View Raw Data" : "View Compiled Data";
+    this.integratedData = !this.integratedData;
+    this.switchLabel = this.integratedData ? 'View Raw Data' : 'View Compiled Data';
     if(this.integratedData) {
       this.constructCompiledDataTable();
     } else {
@@ -133,7 +133,7 @@ export class AdminPage implements OnInit {
     }
   }
 
-  getUniqueTitles(rankings : Ranking[]) {
+  getUniqueTitles(rankings: Ranking[]) {
     let titles = [];
     rankings.forEach(ranking => {
       if(!titles.includes(ranking.bookTitle)) {
