@@ -26,7 +26,11 @@ export class LoginService {
     this.user.firstName = ngForm.form.value["First Name"];
     this.user.lastName = ngForm.form.value["Last Name"];
     this.user.department = ngForm.form.value["Department"];
-    console.log(this.user);
+    //console.log(this.user);
+  }
+
+  getDeparment() {
+    return this.user.department;
   }
 
 

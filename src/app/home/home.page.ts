@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchType, BookService } from 'src/app/services/book.service';
+import { SearchType, BookService, BookDB } from 'src/app/services/book.service';
 import { RankingService, Ranking } from 'src/app/services/ranking.service';
 import { User, LoginService } from '../services/login.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 export interface Book {
   isbn: string,
@@ -28,9 +30,9 @@ export class HomePage {
   results = '';
   valid = false;
   notSubmitted = true;
-  toggleExpand: String;
+  toggleExpand: string;
   // GRAB ALL OF THIS FROM THE DATABASE
-  books: any[]= [{
+  books = []; /*= [{
         // intro to optics
         isbn: 'isbn:9780131499331',
         info: '',
@@ -86,7 +88,7 @@ export class HomePage {
         buttonColor3: 'light',
         value: 0
       }
-      ];
+      ]; */
 
   itemExpandHeight: number = 300; // was 250
 
@@ -94,20 +96,9 @@ export class HomePage {
   result: Observable<any>;
   user : User;
 
-  constructor(private bookService: BookService, private rankingService: RankingService, private loginService : LoginService) {
-
-    for (let i = 0; i < this.books.length; i++) {
-      this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
-        data =>{
-          // populate the titles
-          this.books[i].title = data[0].volumeInfo.title;
-          // populate the descriptions
-          this.books[i].description = data[0].volumeInfo.description;
-          // populate the authors
-          this.books[i].authors = data[0].volumeInfo.authors;
-      });
-    }
-    this.user = this.loginService.getUser();
+  constructor(private bookService: BookService, private rankingService: RankingService, private loginService: LoginService, 
+              private db: AngularFirestore) {
+    this.loadBooks(this.loginService.getDeparment());
   }
 
   expandItem(item) {
@@ -186,6 +177,64 @@ export class HomePage {
     let user = this.loginService.getUser();
     let ranking : Ranking = Object.assign(ranks, user);
     return ranking;
+  }
+
+  async loadBooks(department) {
+    // get the books in the data base -> change this for only current ones with correct department
+    const booksCollection = this.db.collection<BookDB>('/books', ref => ref.where('department', '==', department).where('archived', '==', false));
+    // get the data from the books
+    const booksArray = booksCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
+
+    // go through all of the books and add them to the global variable
+    booksArray.subscribe(books => {
+      books.forEach(element => {
+        //console.log(element.isbn);
+        this.books.push({
+          isbn: 'isbn:' + element.isbn,
+          info: '',
+          title: '',
+          description: '',
+          authors: '',
+          reviews: element.reviewPage,
+          expanded: false,
+          buttonColor1: 'light',
+          buttonColor2: 'light',
+          buttonColor3: 'light',
+          value: 0
+        });
+      });
+    });
+
+    await this.delay(500); // delay half a second so we have all of the books
+
+    for (let i = 0; i < this.books.length; i++) {
+      this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
+        data => {
+          // populate the titles
+          this.books[i].title = data[0].volumeInfo.title;
+          // populate the descriptions
+          this.books[i].description = data[0].volumeInfo.description;
+          // populate the authors
+          this.books[i].authors = data[0].volumeInfo.authors;
+      });
+    }
+    this.user = this.loginService.getUser();
+
+  }
+
+  // found this function to delay at: https://stackoverflow.com/questions/37764665/typescript-sleep
+  // needed this so we can upload a new list of books, and archive the old books without accidentally archiving
+  // the current books we just uploaded
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 }

@@ -102,9 +102,9 @@ export class BookService {
         });
       })
     );
-    console.log("Books Loaded")
+    //console.log("Books Loaded")
     this.booksArray.subscribe(books => {
-      console.log(books);
+      //console.log(books);
     })
    }
 
@@ -118,11 +118,11 @@ export class BookService {
     this.http.get(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
     map(response => response['items']))
     .subscribe(data =>{
-      console.log(data[0])
+      //console.log(data[0])
       if(data[0].volumeInfo.title === undefined) {
         result = "Not Found"
       } else { 
-        console.log("Title is: " + data[0].volumeInfo.title);
+        //console.log("Title is: " + data[0].volumeInfo.title);
         result = "Book Title";//String(data[0].volumeInfo.title);
       }
       //String(data[0].volumeInfo.title);
@@ -135,11 +135,11 @@ export class BookService {
     this.http.get(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
       map(response => response['items']))
       .subscribe(data =>{
-        console.log(data[0])
+        //console.log(data[0])
         if(data[0].volumeInfo.authors === undefined) {
           result = "Not Found"
         } else { 
-          console.log("Authors is: " + data[0].volumeInfo.authors.reduce((a,b) => a + b));
+          //console.log("Authors is: " + data[0].volumeInfo.authors.reduce((a,b) => a + b));
           result = "Authors";
         }
       });
@@ -150,7 +150,7 @@ export class BookService {
     this.http.get(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
     map(response => response['items']))
     .subscribe(data =>{
-      console.log("Description is: " + String(data[0].volumeInfo.description));
+      //console.log("Description is: " + String(data[0].volumeInfo.description));
       return data[0].volumeInfo.description;
     });
   }
@@ -187,8 +187,8 @@ export class BookService {
         });
       })
     );
-    console.log("Book Array")
-    console.log(this.booksArray)
+    //console.log("Book Array")
+    //console.log(this.booksArray)
     return this.booksArray;
   }
 }
