@@ -17,7 +17,8 @@ export interface Book {
   buttonColor1: String,
   buttonColor2: String,
   buttonColor3: String,
-  value: number
+  value: number,
+  isChecked: boolean
 }
 
 @Component({
@@ -173,7 +174,7 @@ export class HomePage {
   }
 
   createRanking(book : Book) {
-    let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value };
+    let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value, eBook : book.isChecked };
     let user = this.loginService.getUser();
     let ranking : Ranking = Object.assign(ranks, user);
     return ranking;

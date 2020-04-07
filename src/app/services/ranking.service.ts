@@ -10,7 +10,8 @@ export interface Ranking {
   firstName: string,
   lastName: string,
   department: string,
-  score: number
+  score: number,
+  eBook: boolean
 }
 
 export class RankingProps implements Ranking {
@@ -21,6 +22,7 @@ export class RankingProps implements Ranking {
   public lastName: string = "";
   public department: string = "";
   public score: number = -1;
+  public eBook: boolean = false
 }
  
 @Injectable({
