@@ -27,6 +27,7 @@ export class UploadbooksPage implements OnInit {
   uploader: FileUploader = new FileUploader({});
   reader: FileReader = new FileReader();
   rawFileText: any;
+  public hasBaseDropZoneOver = false;
 
   constructor(private http: HttpClient,
               private papa: Papa,
@@ -188,6 +189,17 @@ export class UploadbooksPage implements OnInit {
     } else {
       alert('Please Select Department');
     }
+  }
+
+
+
+  fileOverBase(ev): void {
+    this.hasBaseDropZoneOver = ev;
+  }
+
+  reorderFiles(reorderEvent: CustomEvent): void {
+    const element = this.uploader.queue.splice(reorderEvent.detail.from, 1)[0];
+    this.uploader.queue.splice(reorderEvent.detail.to, 0, element);
   }
 
 }

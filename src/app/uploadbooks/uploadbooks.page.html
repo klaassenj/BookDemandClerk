@@ -5,26 +5,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <!-- Select which department -->
-  <ion-item>
-    <ion-select name="Department" color="secondary" #font placeholder="Select Department" [(ngModel)]="department" required>
-      <ion-select-option value="Computer Science">Computer Science</ion-select-option>
-      <ion-select-option value="English">English</ion-select-option>
-      <ion-select-option value="Math">Math</ion-select-option>
-      <ion-select-option value="Physics">Physics</ion-select-option>
-    </ion-select>
-  </ion-item>
+<!-- Select which department -->
+<ion-item>
+  <ion-select name="Department" color="secondary" #font placeholder="Select Department" [(ngModel)]="department" required>
+    <ion-select-option value="Computer Science">Computer Science</ion-select-option>
+    <ion-select-option value="English">English</ion-select-option>
+    <ion-select-option value="Math">Math</ion-select-option>
+    <ion-select-option value="Physics">Physics</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<!-- <app-multi-file-upload></app-multi-file-upload> -->
+
+<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone">
+  Drop files here...
+</div>
+
+<div>
+  <label>
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+    Add Files
+  </label>
+</div>
+
+<h2>Files: {{ uploader?.queue?.length }}</h2>
+
+<ion-list>
+  <ion-reorder-group (ionItemReorder)="reorderFiles($event)" disabled="false">
+    <ion-item *ngFor="let item of uploader.queue">
+      <ion-label>
+        {{ item?.file?.name }}
+      </ion-label>
+      <ion-reorder></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
+</ion-list>
+
+<ion-button (click)="loadFileData()" color="primary" class="upload-btn">
+  Upload File
+</ion-button>
+
+
+<!-- <ion-content>
 
   <table border="1" class="data-table">
     <!-- header section -->
-    <tr>
+    <!-- <tr>
       <td *ngFor="let header of headerRow" text-center class="header">
         <b>{{ header }}</b>
       </td>
-    </tr>
+    </tr> -->
     <!-- data section -->
-    <tr *ngFor="let row of csvData; let i = index">
+    <!-- <tr *ngFor="let row of csvData; let i = index">
       <td *ngFor="let data of row; let j = index; trackBy: trackByFn" class="data-col">
         <ion-input type="text" [(ngModel)]="csvData[i][j]"></ion-input>
 
@@ -35,17 +67,5 @@
 
 <ion-button (click)="uploadBooks()" color="primary" class="upload-btn">
   Upload Books
-</ion-button>
-
-<ion-button (click)="loadFileData()" color="primary">
-  Load File Data
-</ion-button>
-
-<!-- <app-multi-file-upload></app-multi-file-upload> -->
-<div>
-  <label>
-    <input type="file" ng2FileSelect [uploader]="uploader" multiple />
-    Add Files
-  </label>
-</div>
+</ion-button> -->
 
