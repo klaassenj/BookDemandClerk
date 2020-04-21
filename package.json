@@ -11,6 +11,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "resolutions": {
+    "@babel/preset-env": "7.5.5"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~8.1.2",
@@ -20,6 +23,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@babel/compat-data": "^7.8.0",
     "@ionic-native/core": "^5.23.0",
     "@ionic-native/file": "^5.23.0",
     "@ionic-native/file-chooser": "^5.23.0",

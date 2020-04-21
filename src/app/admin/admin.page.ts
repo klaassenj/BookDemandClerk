@@ -100,6 +100,7 @@ export class AdminPage implements OnInit {
       { prop: 'title', name: 'Title' },
       { prop: 'publisher', name: "Publisher" },
       { prop: 'toprating', name: "Top Rating" },
+      { prop: 'ebook', name: "eBook Okay"},
       { prop: 'total', name: "Total # of Ratings"}
     ];
     const uniqueISBNs = this.getUniqueISBNS(this.rankings);
@@ -117,6 +118,7 @@ export class AdminPage implements OnInit {
         title : aggrRanking.title,
         publisher : this.bookService.getPublisher(aggrRanking.isbn), //TODO
         toprating : this.getTopRating(this.rankings, aggrRanking.isbn),
+        ebook : this.geteBookConsensus(aggrRanking.isbn),
         total : this.calculateTotal(this.rankings, aggrRanking.isbn)
       }
     });
@@ -138,6 +140,12 @@ export class AdminPage implements OnInit {
     } else {
       this.constructRawDataTable();
     }
+  }
+
+  geteBookConsensus(isbn : string) {
+    return undefined === this.rankings
+            .filter(ranking => ranking.bookISBN == isbn)
+            .find(ranking => !ranking.eBook)
   }
 
   getUniqueTitles(rankings: Ranking[]) {

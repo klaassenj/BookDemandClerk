@@ -27,10 +27,20 @@ export class LoginPage implements OnInit {
   }
 
   login(form: NgForm) {
-    this.loginService.login(form);
-    this.router.navigateByUrl('home');
-    console.log("login.page.ts login() Get User")
-    console.log(this.loginService.getUser())
+    if(this.isValidUserID(form.form.value["userID"])) {
+      this.loginService.login(form);
+      this.router.navigateByUrl('home');
+      console.log("login.page.ts login() Get User")
+      console.log(this.loginService.getUser())
+    } else {
+      alert("Please enter a valid userID.")
+    }
+  }
+
+  isValidUserID(userID : string) {
+    console.log("isValidUserID")
+    console.log(userID)
+    return userID.match(/\b[\w\.-]+(@[\w\.-]+\.\w{2,4})*\b/g)
   }
 
   
