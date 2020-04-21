@@ -73,7 +73,7 @@ export class AdminPage implements OnInit {
       { prop: 'isbn', name: 'ISBN Number' },
       { prop: 'title', name: 'Title' },
       { prop: 'author', name: 'Author(s)' },
-      { prop: 'department', name: 'Department' },
+      { prop: 'department', name: 'Department' }, 
       { prop: 'reviewPage', name: 'Review Page' },
     ];
     let keys : string[] = this.bookColumns.map(element => {
@@ -95,22 +95,20 @@ export class AdminPage implements OnInit {
 
   constructCompiledDataTable() {
     this.columns = [
+      { prop: 'isbn', name: 'ISBN' },
       { prop: 'title', name: 'Title' },
-      { prop: 'avgrating', name: 'Average Rating' },
-      { prop: 'numOnes', name: "Number of 1's" },
-      { prop: 'numTwos', name: "Number of 2's" },
-      { prop: 'sum', name: "Number of 3\'s" },
+      { prop: 'publisher', name: "Publisher" },
+      { prop: 'toprating', name: "Top Rating" },
       { prop: 'total', name: "Total # of Ratings"}
     ];
-    const uniqueTitles = this.getUniqueTitles(this.rankings);
-    this.rows = uniqueTitles.map(bookTitle => {
+    const uniqueISBNs = this.getUniqueISBNS(this.rankings);
+    this.rows = uniqueISBNs.map(ISBN => {
       return {
-        title : bookTitle,
-        avgrating : this.calculateAverageRatingPerTitle(this.rankings, bookTitle),
-        numOnes : this.calculateSumPerScore(this.rankings, bookTitle, 1),
-        numTwos : this.calculateSumPerScore(this.rankings, bookTitle, 2),
-        sum : this.calculateSumPerScore(this.rankings, bookTitle, 3),
-        total : this.calculateTotal(this.rankings, bookTitle)
+        isbn : ISBN,
+        title : this.bookService.getBookTitle(ISBN),
+        publisher : "Publisher", //TODO
+        toprating : this.getTopRating(this.rankings, ISBN),
+        total : this.calculateTotal(this.rankings, ISBN)
       }
     });
   }
@@ -143,8 +141,18 @@ export class AdminPage implements OnInit {
     return titles;
   }
 
-  calculateTotal(rankings : Ranking[], title : String) {
-    return rankings.filter(ranking => ranking.bookTitle == title).length
+  getUniqueISBNS(rankings: Ranking[]) {
+    let isbns = [];
+    rankings.forEach(ranking => {
+      if(!isbns.includes(ranking.bookISBN)) {
+        isbns.push(ranking.bookISBN);
+      }
+    });
+    return isbns;
+  }
+
+  calculateTotal(rankings : Ranking[], isbn : String) {
+    return rankings.filter(ranking => ranking.bookISBN == isbn).length
   }
 
   calculateAverageRatingPerTitle(rankings : Ranking[], title : String) : String {
@@ -169,6 +177,21 @@ export class AdminPage implements OnInit {
 
   uploadBooksPage() {
     this.router.navigateByUrl('uploadbooks');
+  }
+
+  getTopRating(rankings : Ranking[], isbn : string) {
+      let max = 0
+      rankings.forEach(ranking => {
+        if(ranking.bookISBN == isbn) {
+          if(ranking.score > max) {
+            max = ranking.score
+            if(max == 3) {
+              return max
+            }
+          }
+        }
+      });
+      return max
   }
 
 }
