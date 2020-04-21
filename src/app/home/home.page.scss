@@ -37,3 +37,25 @@
     margin-right: 200px;
     margin-left: 10px;
 }
+
+// ion-item{
+//     --background: #3880ff;
+//     --color: #fff;
+// }
+ion-button{
+    --background: #062f77;
+}
+
+#adminButton {
+    --background: #062f77;
+    float: right;
+}
+
+#title {
+    --background: #062f77;
+    float: left;
+}
+
+a{
+    color: #fff;
+}

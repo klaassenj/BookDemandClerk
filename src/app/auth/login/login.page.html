@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title id="title">Book Demand Clerk</ion-title>
-    <ion-button id="adminButton" (click)="adminHandler()" slot="end">Administrator</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -19,10 +18,7 @@
                   <ion-input name="{{field}}" type="{{field}}" placeholder="{{field}}" ngModel required></ion-input>
                 </ion-item> -->
               <ion-item>
-                <ion-input name="First Name" type="firstName" placeholder="First Name" ngModel required></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-input name="Last Name" type="lastName" placeholder="Last Name" ngModel required></ion-input>
+                <ion-input name="userID" type="userID" placeholder="Calvin User ID (e.g. aaa11@calvin.edu)" ngModel required></ion-input>
               </ion-item>
               <ion-item>
                 <!-- <ion-label>Department</ion-label> -->

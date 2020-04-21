@@ -7,8 +7,7 @@ export interface Ranking {
   id?: string,
   bookISBN: string,
   bookTitle: string,
-  firstName: string,
-  lastName: string,
+  userID: string,
   department: string,
   score: number,
   eBook: boolean
@@ -18,8 +17,7 @@ export class RankingProps implements Ranking {
   public id?: string = "";
   public bookISBN: string = "";
   public bookTitle: string = "";
-  public firstName: string = "";
-  public lastName: string = "";
+  public userID: string = "";
   public department: string = "";
   public score: number = -1;
   public eBook: boolean = false

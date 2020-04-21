@@ -3,6 +3,7 @@
     <ion-title>
       Calvin Book Demand Clerk
     </ion-title>
+    <ion-button *ngIf="isAdmin" id="adminButton" (click)="adminHandler()" slot="end">Administrator</ion-button>
   </ion-toolbar>
 </ion-header>
 

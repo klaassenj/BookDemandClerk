@@ -17,8 +17,7 @@ export class LoginPage implements OnInit {
 
   constructor(private loginService: LoginService, private  router: Router) {
     this.default = {
-      firstName: 'First Name',
-      lastName: 'Last Name',
+      userID: "aaa11@calvin.edu",
       department: 'Department',
       }
     this.fields = Object.keys(this.default);
@@ -30,11 +29,11 @@ export class LoginPage implements OnInit {
   login(form: NgForm) {
     this.loginService.login(form);
     this.router.navigateByUrl('home');
+    console.log("login.page.ts login() Get User")
+    console.log(this.loginService.getUser())
   }
 
-  adminHandler() {
-    this.router.navigateByUrl('admin');
-  }
+  
 
   getDepartment() {
     return this.default.department;

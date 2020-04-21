@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { SearchType, BookService, BookDB } from 'src/app/services/book.service';
 import { RankingService, Ranking } from 'src/app/services/ranking.service';
 import { User, LoginService } from '../services/login.service';
@@ -28,6 +29,7 @@ export interface Book {
 })
 export class HomePage {
 
+  isAdmin: boolean = false;
   results = '';
   valid = false;
   notSubmitted = true;
@@ -97,9 +99,12 @@ export class HomePage {
   result: Observable<any>;
   user : User;
 
-  constructor(private bookService: BookService, private rankingService: RankingService, private loginService: LoginService, 
+  constructor(private router: Router, private bookService: BookService, private rankingService: RankingService, private loginService: LoginService, 
               private db: AngularFirestore) {
+    console.log("Department at homepage.ts")
+    console.log(this.loginService.getDeparment())
     this.loadBooks(this.loginService.getDeparment());
+    this.isAdmin = this.loginService.getUser().userID == 'kvlinden@calvin.edu'
   }
 
   expandItem(item) {
@@ -157,11 +162,22 @@ export class HomePage {
     // }
     
     // Set Ranking
+    console.log("Every book")
     console.log(this.books)
-    console.log()
-    this.books = this.books.filter(book => book.score > 0);
+    
+    this.books = this.books.filter(book => book.value > 0).map(book => {
+      let sanitizedBook = book
+      if(sanitizedBook.eBook === undefined) {
+        sanitizedBook.eBook = false
+      }
+      sanitizedBook.isbn = sanitizedBook.isbn.replace("isbn:", "");
+      return sanitizedBook
+    });
+    console.log("Books Voted on")
+    console.log(this.books)
     this.books.forEach(book => {
       let ranking = this.createRanking(book);
+      console.log("Ranking for Book #" + this.books.indexOf(book))
       console.log(ranking);
       this.rankingService.addRanking(ranking);
     });
@@ -174,7 +190,7 @@ export class HomePage {
   }
 
   createRanking(book : Book) {
-    let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value, eBook : book.isChecked };
+    let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value, eBook : book.isChecked === true };
 
     let user = this.loginService.getUser();
     let ranking : Ranking = Object.assign(ranks, user);
@@ -246,6 +262,10 @@ export class HomePage {
   // the current books we just uploaded
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  adminHandler() {
+    this.router.navigateByUrl('admin');
   }
 
 }

@@ -80,17 +80,18 @@ export class AdminPage implements OnInit {
       return element.prop.toString();
     });
     this.bookRows = this.books.map(book => {
-    const columnObject = {};
-    //console.log(book)
-    columnObject['isbn'] = book.isbn;
-    columnObject['department'] = book.department;
-    columnObject['reviewPage'] = book.reviewPage;
-    columnObject['title'] = this.bookService.getBookTitle(book.isbn);
-    columnObject['author'] = this.bookService.getBookAuthors(book.isbn);
-    //console.log('After assignment');
-    //console.log(columnObject);
-    return columnObject;
-  });
+      const columnObject = {};
+      console.log("Book is admin.page.ts")
+      console.log(book)
+      columnObject['isbn'] = book.isbn;
+      columnObject['department'] = book.department;
+      columnObject['reviewPage'] = book.reviewPage;
+      columnObject['title'] = this.bookService.getBookTitle(book.isbn);
+      columnObject['author'] = this.bookService.getBookAuthors(book.isbn);
+      console.log('Data Row After assignment');
+      console.log(columnObject);
+      return columnObject;
+    });
   }
 
   constructCompiledDataTable() {
@@ -102,13 +103,21 @@ export class AdminPage implements OnInit {
       { prop: 'total', name: "Total # of Ratings"}
     ];
     const uniqueISBNs = this.getUniqueISBNS(this.rankings);
-    this.rows = uniqueISBNs.map(ISBN => {
+    const aggregateRankings = uniqueISBNs.map(ISBN => {
       return {
-        isbn : ISBN,
-        title : this.bookService.getBookTitle(ISBN),
-        publisher : "Publisher", //TODO
-        toprating : this.getTopRating(this.rankings, ISBN),
-        total : this.calculateTotal(this.rankings, ISBN)
+              isbn: ISBN, 
+              title: this.rankings.find(ranking => ranking.bookISBN == ISBN).bookTitle
+      };
+    });
+    this.rows = aggregateRankings.map(aggrRanking => {
+      console.log("Unqiue ISBN Ranking Aggregate with ISBN and title")
+      console.log(aggrRanking)
+      return {
+        isbn : aggrRanking.isbn,
+        title : aggrRanking.title,
+        publisher : this.bookService.getPublisher(aggrRanking.isbn), //TODO
+        toprating : this.getTopRating(this.rankings, aggrRanking.isbn),
+        total : this.calculateTotal(this.rankings, aggrRanking.isbn)
       }
     });
   }

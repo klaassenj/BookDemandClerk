@@ -118,15 +118,44 @@ export class BookService {
     this.http.get(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
     map(response => response['items']))
     .subscribe(data =>{
-      //console.log(data[0])
+      console.log("getBookTitle from book service data object on book")
+      console.log(data[0])
       if(data[0].volumeInfo.title === undefined) {
         result = "Not Found"
       } else { 
         //console.log("Title is: " + data[0].volumeInfo.title);
-        result = "Book Title";//String(data[0].volumeInfo.title);
+        result = data[0].volumeInfo.title;//String(data[0].volumeInfo.title);
+        
+        
+      }
+      
+      //String(data[0].volumeInfo.title);
+    })
+    console.log(result)
+    return result;
+  }
+
+  getPublisher(search: string) {
+    // if (search !== '') {
+    //   return this.http.get<string>(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
+    //     map(results => results['items.volumeInfo'])
+    //   );
+    // }
+    let result = '';
+    this.http.get(`${this.url}?q=${encodeURI(search)}&apikey=${this.key}`).pipe(
+    map(response => response['items']))
+    .subscribe(data =>{
+      console.log("getBookTitle from book service data object on book")
+      console.log(data[0])
+      if(data[0].volumeInfo.publisher === undefined) {
+        result = "Not Found"
+      } else { 
+        //console.log("Title is: " + data[0].volumeInfo.title);
+        result = data[0].volumeInfo.publisher;//String(data[0].volumeInfo.title);
       }
       //String(data[0].volumeInfo.title);
     });
+    console.log(result)
     return result;
   }
 
