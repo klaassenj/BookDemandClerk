@@ -227,6 +227,7 @@ export class HomePage {
           this.books[i].authors = data[0].volumeInfo.authors;
       });
     }
+    console.log(this.books)
     this.user = this.loginService.getUser();
 
   }
