@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { UploadbooksPage } from './uploadbooks.page';
 
+import { MultiFileUploadComponent } from '../components/multi-file-upload/multi-file-upload.component';
+import { FileUploadModule } from 'ng2-file-upload';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,8 +22,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    FileUploadModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UploadbooksPage]
+  declarations: [UploadbooksPage, MultiFileUploadComponent]
 })
 export class UploadbooksPageModule {}

@@ -36,3 +36,16 @@
 <ion-button (click)="uploadBooks()" color="primary" class="upload-btn">
   Upload Books
 </ion-button>
+
+<ion-button (click)="loadFileData()" color="primary">
+  Load File Data
+</ion-button>
+
+<!-- <app-multi-file-upload></app-multi-file-upload> -->
+<div>
+  <label>
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+    Add Files
+  </label>
+</div>
+
