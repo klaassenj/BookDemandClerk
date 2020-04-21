@@ -28,7 +28,7 @@ export interface BookDB {
 export class BookService {
 
   private booksCollection: AngularFirestoreCollection<BookDB>;
-  private booksArray : Observable<BookDB[]>;
+  private booksArray: Observable<BookDB[]>;
   url = 'https://www.googleapis.com/books/v1/volumes';
   key = 'AIzaSyAE-sRoOWCEaZWNwfI06Bc7Dtm1BcqYC2k';
   books: any[]= [{

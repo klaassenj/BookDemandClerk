@@ -159,11 +159,11 @@ export class HomePage {
     // Set Ranking
     console.log(this.books)
     console.log()
-    this.books = this.books.filter(book => book.score > 0)
+    this.books = this.books.filter(book => book.score > 0);
     this.books.forEach(book => {
       let ranking = this.createRanking(book);
       console.log(ranking);
-      this.rankingService.addRanking(ranking)
+      this.rankingService.addRanking(ranking);
     });
 
     this.notSubmitted = false;
@@ -175,6 +175,7 @@ export class HomePage {
 
   createRanking(book : Book) {
     let ranks = { bookISBN : book.isbn, bookTitle : book.title, score : book.value, eBook : book.isChecked };
+
     let user = this.loginService.getUser();
     let ranking : Ranking = Object.assign(ranks, user);
     return ranking;
@@ -214,7 +215,7 @@ export class HomePage {
       });
     });
 
-    await this.delay(500); // delay half a second so we have all of the books
+    await this.delay(1000); // delay a second so we have all of the books
 
     for (let i = 0; i < this.books.length; i++) {
       this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
@@ -222,9 +223,17 @@ export class HomePage {
           // populate the titles
           this.books[i].title = data[0].volumeInfo.title;
           // populate the descriptions
-          this.books[i].description = data[0].volumeInfo.description;
+          // check if the description is too long and truncate it
+          if (data[0].volumeInfo.description.length > 1200) {
+            this.books[i].description = data[0].volumeInfo.description.slice(0, 1200) + '...';
+          } else {
+            this.books[i].description = data[0].volumeInfo.description;
+          }
           // populate the authors
           this.books[i].authors = data[0].volumeInfo.authors;
+          
+          // print out the length of the description
+          console.log(data[0].volumeInfo.description.length);
       });
     }
     console.log(this.books)
