@@ -25,7 +25,8 @@ export class UploadServiceService {
         reviewPage: booklist[i].reviewPage,
         archived: false,
         department: currentDepartment,
-        date: currentDate
+        date: currentDate,
+        title: booklist[i].title
       });
     }
   }

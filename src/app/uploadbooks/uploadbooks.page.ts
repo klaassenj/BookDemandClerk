@@ -28,6 +28,7 @@ export class UploadbooksPage implements OnInit {
   reader: FileReader = new FileReader();
   rawFileText: any;
   public hasBaseDropZoneOver = false;
+  titleArray: string[] = [];
 
   constructor(private http: HttpClient,
               private papa: Papa,
@@ -91,7 +92,7 @@ export class UploadbooksPage implements OnInit {
           const isbnIndex = 2 * i; // the even entries
           const reviewIndex = 2 * i + 1; // the odd entries
           // store the isbn and review link in book object
-          const newBook: Book = { ISBN: parsedEntries[isbnIndex], reviewPage: parsedEntries[reviewIndex]};
+          const newBook: Book = { ISBN: parsedEntries[isbnIndex], reviewPage: parsedEntries[reviewIndex], title: ''};
           list.push(newBook);
         }
         this.uploadService.upload(list, this.department);
@@ -145,18 +146,23 @@ export class UploadbooksPage implements OnInit {
     totalEntries.splice(0, 10);
     console.log(totalEntries);
 
+    this.titleArray.push(totalEntries[0]);
+
     // each entry has 10 columns:
     // Title, Subtitle, Edition, Author, RespState, Publisher, LC Class Number, ISBN, URL, Choice Review Number
     // all of the isbns start with a 9
-    totalEntries.forEach(entry => {
+    for (let i = 0; i < totalEntries.length; ++i) {
       // check that the entry is an isbn number
-      if (String(entry).includes('9') && entry.length >= 13 && entry.length < 16) {
-        parsedArray.push(entry);
-      } else if (entry.includes('-') && entry.length === 8) {
-        parsedArray.push(entry);
+      if (String(totalEntries[i]).includes('9') && totalEntries[i].length >= 13 && totalEntries[i].length < 16) {
+        parsedArray.push(totalEntries[i]);
+      } else if (totalEntries[i].includes('-') && totalEntries[i].length === 8) {
+        parsedArray.push(totalEntries[i]);
+        if ((i + 1) < totalEntries.length) {
+          this.titleArray.push(totalEntries[i + 1]);
+        }
       }
-    });
-
+    }
+    console.log(this.titleArray);
     return parsedArray;
   }
 
@@ -182,7 +188,7 @@ export class UploadbooksPage implements OnInit {
       const bookList: Book[] = [];
       for (let i = 0; i < infoArray.length; i++) {
         // store the isbn and review link in book object
-        const newBook: Book = { ISBN: infoArray[i].replace('"', ''), reviewPage: 'null'};
+        const newBook: Book = { ISBN: infoArray[i].replace('"', ''), reviewPage: 'null', title: this.titleArray[i]};
         bookList.push(newBook);
       }
       this.uploadService.upload(bookList, this.department);

@@ -26,12 +26,13 @@
   
       <!-- <ion-card-content> -->
         <app-expandable [expandHeight]="itemExpandHeight" [expanded]="book.expanded">
-          <div class="header">Author(s):</div>
-          <p class="description" color="dark">{{book.authors}}</p>
+          <p class="description" color="dark">ISBN: {{book.isbn}}</p>
+          <div class="description">Author(s): {{book.authors}}</div>
+          <!-- <p class="description" color="dark">{{book.authors}}</p> -->
           <p></p>
-          <h1 class="header" color="dark">Description:</h1>
+          <h1 class="description" color="dark">Description:</h1>
           <p class="description" color="dark">{{book.description}}</p>
-          <a class="hlink" href="{{book.reviews}}">Reviews</a>
+          <!-- <a class="hlink" href="{{book.reviews}}">Reviews</a> -->
         </app-expandable>
       <!-- </ion-card-content> -->
       </ion-card>
