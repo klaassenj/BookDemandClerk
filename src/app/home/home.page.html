@@ -14,9 +14,9 @@
         <ion-card-title>{{book.title}}</ion-card-title>
         <!-- <ion-label>Vote: </ion-label> -->
         <div class="voteItems">
-          <ion-button shape="round" [color]="book.buttonColor1" (click)="voteButtonClicked(1, book)">1</ion-button>
-          <ion-button shape="round" [color]="book.buttonColor2" (click)="voteButtonClicked(2, book)">2</ion-button>
-          <ion-button shape="round" [color]="book.buttonColor3" (click)="voteButtonClicked(3, book)">3</ion-button>
+          <ion-button shape="round" [color]="book.buttonColor1" (click)="voteButtonClicked(1, book)">1 - Essential</ion-button>
+          <ion-button shape="round" [color]="book.buttonColor2" (click)="voteButtonClicked(2, book)">2 - Useful</ion-button>
+          <ion-button shape="round" [color]="book.buttonColor3" (click)="voteButtonClicked(3, book)">3 - Optional</ion-button>
           <ion-checkbox class="eBook" [(ngModel)]="book.isChecked"></ion-checkbox>
           <ion-label class="eBook eBookLabel">eBook okay?</ion-label>
           <ion-button slot="end" id="expandButton" shape="round" [color]="primary" (click)="expandItem(book)">{{getExpandButtonText(book)}}</ion-button>
