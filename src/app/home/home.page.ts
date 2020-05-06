@@ -104,7 +104,7 @@ export class HomePage {
     console.log("Department at homepage.ts")
     console.log(this.loginService.getDeparment())
     this.loadBooks(this.loginService.getDeparment());
-    this.isAdmin = this.loginService.getUser().userID == 'kvlinden@calvin.edu'
+    this.isAdmin = this.loginService.getUser().userID === 'kvlinden@calvin.edu';
   }
 
   expandItem(item) {
@@ -248,9 +248,13 @@ export class HomePage {
             }
             // populate the authors
             this.books[i].authors = data[0].volumeInfo.authors;
+            // add titleAuthors field so it is easy to display the authors in the title bar and handle
+            // when there is no data available
+            this.books[i].titleAuthors = '- ' + data[0].volumeInfo.authors;
           } catch (error) {
             //this.books[i].title = realTitle;
             this.books[i].authors = 'No data available';
+            this.books[i].titleAuthors = '';
             this.books[i].description = 'No description available';
           }
       });

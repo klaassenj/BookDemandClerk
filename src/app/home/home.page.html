@@ -11,7 +11,7 @@
   <ion-list>
     <ion-card *ngFor="let book of books">
       <ion-card-header>
-        <ion-card-title>{{book.title}}</ion-card-title>
+        <ion-card-title>{{book.title}} {{book.titleAuthors}}</ion-card-title>
         <!-- <ion-label>Vote: </ion-label> -->
         <div class="voteItems">
           <ion-button shape="round" [color]="book.buttonColor1" (click)="voteButtonClicked(1, book)">1 - Essential</ion-button>
