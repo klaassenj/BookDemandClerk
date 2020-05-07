@@ -197,18 +197,18 @@ export class AdminPage implements OnInit {
   }
 
   getTopRating(rankings : Ranking[], isbn : string) {
-      let max = 0
+      let min = 0
       rankings.forEach(ranking => {
         if(ranking.bookISBN == isbn) {
-          if(ranking.score > max) {
-            max = ranking.score
-            if(max == 3) {
-              return max
+          if(ranking.score < min) {
+            min = ranking.score
+            if(min == 1) {
+              return min
             }
           }
         }
       });
-      return max
+      return min
   }
 
 }
