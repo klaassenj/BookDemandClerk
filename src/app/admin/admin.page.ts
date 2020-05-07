@@ -197,7 +197,7 @@ export class AdminPage implements OnInit {
   }
 
   getTopRating(rankings : Ranking[], isbn : string) {
-      let min = 0
+      let min = 3
       rankings.forEach(ranking => {
         if(ranking.bookISBN == isbn) {
           if(ranking.score < min) {
