@@ -19,7 +19,8 @@ export interface BookDB {
   date : Date,
   department : string,
   isbn : string,
-  reviewPage : string
+  reviewPage : string, 
+  title: string
 }
 
 @Injectable({

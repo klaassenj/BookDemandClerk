@@ -104,7 +104,7 @@ export class HomePage {
     console.log("Department at homepage.ts")
     console.log(this.loginService.getDeparment())
     this.loadBooks(this.loginService.getDeparment());
-    this.isAdmin = this.loginService.getUser().userID == 'kvlinden@calvin.edu'
+    this.isAdmin = this.loginService.getUser().userID === 'kvlinden@calvin.edu';
   }
 
   expandItem(item) {
@@ -216,9 +216,9 @@ export class HomePage {
       books.forEach(element => {
         //console.log(element.isbn);
         this.books.push({
-          isbn: 'isbn:' + element.isbn,
+          isbn: element.isbn,
           info: '',
-          title: '',
+          title: element.title,
           description: '',
           authors: '',
           reviews: element.reviewPage,
@@ -234,25 +234,31 @@ export class HomePage {
     await this.delay(1000); // delay a second so we have all of the books
 
     for (let i = 0; i < this.books.length; i++) {
-      this.books[i].title = this.bookService.getObservable(this.books[i].isbn).subscribe(
+      this.bookService.getObservable("isbn:" + this.books[i].isbn).subscribe(
         data => {
           // populate the titles
-          this.books[i].title = data[0].volumeInfo.title;
-          // populate the descriptions
-          // check if the description is too long and truncate it
-          if (data[0].volumeInfo.description.length > 1200) {
-            this.books[i].description = data[0].volumeInfo.description.slice(0, 1200) + '...';
-          } else {
-            this.books[i].description = data[0].volumeInfo.description;
+          try {
+            //this.books[i].title = data[0].volumeInfo.title;
+            // populate the descriptions
+            // check if the description is too long and truncate it
+            if (data[0].volumeInfo.description.length > 1200) {
+              this.books[i].description = data[0].volumeInfo.description.slice(0, 1200) + '...';
+            } else {
+              this.books[i].description = data[0].volumeInfo.description;
+            }
+            // populate the authors
+            this.books[i].authors = data[0].volumeInfo.authors;
+            // add titleAuthors field so it is easy to display the authors in the title bar and handle
+            // when there is no data available
+            this.books[i].titleAuthors = '- ' + data[0].volumeInfo.authors;
+          } catch (error) {
+            //this.books[i].title = realTitle;
+            this.books[i].authors = 'No data available';
+            this.books[i].titleAuthors = '';
+            this.books[i].description = 'No description available';
           }
-          // populate the authors
-          this.books[i].authors = data[0].volumeInfo.authors;
-          
-          // print out the length of the description
-          console.log(data[0].volumeInfo.description.length);
       });
     }
-    console.log(this.books)
     this.user = this.loginService.getUser();
 
   }
