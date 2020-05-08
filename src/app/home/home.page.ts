@@ -30,6 +30,7 @@ export interface Book {
 export class HomePage {
 
   isAdmin: boolean = false;
+  admins: string[] = ["kvlinden@calvin.edu", "hekmanadmin"]
   results = '';
   valid = false;
   notSubmitted = true;
@@ -104,7 +105,7 @@ export class HomePage {
     console.log("Department at homepage.ts")
     console.log(this.loginService.getDeparment())
     this.loadBooks(this.loginService.getDeparment());
-    this.isAdmin = this.loginService.getUser().userID === 'kvlinden@calvin.edu';
+    this.isAdmin = this.admins.includes(this.loginService.getUser().userID);
   }
 
   expandItem(item) {
